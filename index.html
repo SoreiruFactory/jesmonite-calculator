@@ -105,8 +105,8 @@
     <div class="result" id="result"></div>
 
     <div class="menu">
-      <a href="https://jesmonite.com/" target="_blank">公式サイト</a>
-      <a href="https://jesmonite.com/products/" target="_blank">商品ページ</a>
+      <a href="https://jesmonite.jp/" target="_blank">公式サイト</a>
+      <a href="https://jesmonite.official.ec/" target="_blank">商品ページ</a>
     </div>
   </div>
 
@@ -121,18 +121,23 @@
 
       if (!isNaN(powder) && isNaN(liquid) && isNaN(total)) {
         const calcLiquid = (powder / ratio).toFixed(1);
+        const totalWeight = parseFloat(powder) + parseFloat(calcLiquid);
         result = `Liquid: ${calcLiquid} g`;
-        result += `<br>着色剤(最大5%): ${( (powder + calcLiquid) * 0.05 ).toFixed(1)} g`;
+        result += `<br>総重量: ${totalWeight.toFixed(1)} g`;
+        result += `<br>着色剤(5%): ${(totalWeight * 0.05).toFixed(1)} g`;
       } else if (isNaN(powder) && !isNaN(liquid) && isNaN(total)) {
         const calcPowder = (liquid * ratio).toFixed(1);
+        const totalWeight = parseFloat(calcPowder) + parseFloat(liquid);
         result = `Powder: ${calcPowder} g`;
-        result += `<br>着色剤(最大5%): ${( (calcPowder + liquid) * 0.05 ).toFixed(1)} g`;
+        result += `<br>総重量: ${totalWeight.toFixed(1)} g`;
+        result += `<br>着色剤(5%): ${(totalWeight * 0.05).toFixed(1)} g`;
       } else if (isNaN(powder) && isNaN(liquid) && !isNaN(total)) {
         const totalRatio = ratio + 1;
         const calcPowder = (total * ratio / totalRatio).toFixed(1);
         const calcLiquid = (total / totalRatio).toFixed(1);
         result = `Powder: ${calcPowder} g<br>Liquid: ${calcLiquid} g`;
-        result += `<br>着色剤(最大5%): ${( total * 0.05 ).toFixed(1)} g`;
+        result += `<br>総重量: ${total.toFixed(1)} g`;
+        result += `<br>着色剤(5%): ${( total * 0.05 ).toFixed(1)} g`;
       } else {
         result = "Powder, Liquid, 総重量のいずれか1つだけ入力してください。";
       }
