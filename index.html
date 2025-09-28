@@ -5,23 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jesmonite 比率計算</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 2rem; }
-    input { padding: 0.5rem; font-size: 1.2rem; width: 150px; margin: 0.5rem; }
-    button { padding: 0.7rem 1.2rem; font-size: 1rem; margin-top: 1rem; }
-    .result { margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold; }
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #e9ecef);
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    p {
+      margin-bottom: 1.5rem;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      width: 100%;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #005f8c;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #222;
+    }
   </style>
 </head>
 <body>
-  <h1>Jesmonite 比率計算</h1>
-  <p>Powder : Liquid = <strong>2.5 : 1</strong></p>
+  <div class="container">
+    <h1>Jesmonite 比率計算</h1>
+    <p>Powder : Liquid = <strong>2.5 : 1</strong></p>
 
-  <div>
     <input type="number" id="powder" placeholder="Powder (g)">
     <input type="number" id="liquid" placeholder="Liquid (g)">
-  </div>
-  <button onclick="calc()">計算する</button>
+    <input type="number" id="total" placeholder="総重量 (g)">
 
-  <div class="result" id="result"></div>
+    <button onclick="calc()">計算する</button>
+
+    <div class="result" id="result"></div>
+  </div>
 
   <script>
     const ratio = 2.5; // Powder : Liquid = 2.5 : 1
@@ -29,17 +84,23 @@
     function calc() {
       const powder = parseFloat(document.getElementById('powder').value);
       const liquid = parseFloat(document.getElementById('liquid').value);
+      const total = parseFloat(document.getElementById('total').value);
       let result = "";
 
-      if (!isNaN(powder) && isNaN(liquid)) {
+      if (!isNaN(powder) && isNaN(liquid) && isNaN(total)) {
         result = `Liquid: ${(powder / ratio).toFixed(1)} g`;
-      } else if (isNaN(powder) && !isNaN(liquid)) {
+      } else if (isNaN(powder) && !isNaN(liquid) && isNaN(total)) {
         result = `Powder: ${(liquid * ratio).toFixed(1)} g`;
+      } else if (isNaN(powder) && isNaN(liquid) && !isNaN(total)) {
+        const totalRatio = ratio + 1;
+        const calcPowder = (total * ratio / totalRatio).toFixed(1);
+        const calcLiquid = (total / totalRatio).toFixed(1);
+        result = `Powder: ${calcPowder} g<br>Liquid: ${calcLiquid} g`;
       } else {
-        result = "どちらか一方だけ入力してください。";
+        result = "Powder, Liquid, 総重量のいずれか1つだけ入力してください。";
       }
 
-      document.getElementById('result').textContent = result;
+      document.getElementById('result').innerHTML = result;
     }
   </script>
 </body>
