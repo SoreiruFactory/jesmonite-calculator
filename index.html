@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jesmonite 比率計算</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    input { padding: 0.5rem; font-size: 1.2rem; width: 150px; margin: 0.5rem; }
+    button { padding: 0.7rem 1.2rem; font-size: 1rem; margin-top: 1rem; }
+    .result { margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Jesmonite 比率計算</h1>
+  <p>Powder : Liquid = <strong>2.5 : 1</strong></p>
+
+  <div>
+    <input type="number" id="powder" placeholder="Powder (g)">
+    <input type="number" id="liquid" placeholder="Liquid (g)">
+  </div>
+  <button onclick="calc()">計算する</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const ratio = 2.5; // Powder : Liquid = 2.5 : 1
+
+    function calc() {
+      const powder = parseFloat(document.getElementById('powder').value);
+      const liquid = parseFloat(document.getElementById('liquid').value);
+      let result = "";
+
+      if (!isNaN(powder) && isNaN(liquid)) {
+        result = `Liquid: ${(powder / ratio).toFixed(1)} g`;
+      } else if (isNaN(powder) && !isNaN(liquid)) {
+        result = `Powder: ${(liquid * ratio).toFixed(1)} g`;
+      } else {
+        result = "どちらか一方だけ入力してください。";
+      }
+
+      document.getElementById('result').textContent = result;
+    }
+  </script>
+</body>
+</html>
